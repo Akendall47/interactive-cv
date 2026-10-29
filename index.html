@@ -195,15 +195,28 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   .fill > svg{height:auto}
   .fill:has(> canvas){aspect-ratio:16/9}
   .detail{min-height:0}
+  /* Smaller type and chrome: the figure carries the slide, the text around it is supporting. */
+  body{font-size:14px; padding-left:max(12px, env(safe-area-inset-left, 0px)); padding-right:max(12px, env(safe-area-inset-right, 0px))}
+  .mono{font-size:10px} button{font-size:10px; padding:5px 8px}
+  header.top{padding-block:8px 6px; gap:10px} nav.chapters button{padding:4px 6px}
+  footer.ctl{padding-block:6px 8px} .dots i{width:5px; height:5px}
+  .txt h1{font-size:22px} .txt h2, .txt h2.lead{font-size:19px}
+  .txt p, .txt ul, .why{font-size:13.5px} .bg{font-size:13px !important} .note, .txt p.note{font-size:12.5px}
+  .steps{gap:7px} .steps li{font-size:13.5px; grid-template-columns:22px 1fr; gap:8px} .steps li::before{width:20px; height:20px; font-size:10.5px}
+  .isteps{gap:7px} .isteps li{font-size:13.5px; grid-template-columns:28px 1fr; gap:8px} .isteps svg{width:28px; height:28px}
+  .how{font-size:12.5px} .maps{font-size:13px} .detail h3, #flowDetail h3{font-size:15px} .detail p, #flowDetail p{font-size:13px}
+  .tie{padding:8px 10px; font-size:12.5px} .tie b{font-size:13.5px} .tie .mono{font-size:9.5px}
+  .vbar{margin-bottom:6px; gap:4px 6px} .cap{font-size:12px; margin-top:6px} .legend{font-size:11.5px}
+  .chip{font-size:10px} .stat b{font-size:20px} .stat span{font-size:11.5px}
+  .big3 p{font-size:14px !important} .bar{font-size:12px}
 }
 /* Phone held sideways: the screen is short, so trim the chrome to leave room for the figure. */
 @media (max-height:500px) and (orientation:landscape){
   header.top{padding-block:6px 5px} header.top b{display:none}
-  footer.ctl{padding-block:4px 6px} footer.ctl button{padding:5px 10px} .dots{display:none}
-  .txt h1{font-size:26px} .txt h2, .txt h2.lead{font-size:22px}
-  .vbar{margin-bottom:6px; gap:4px 8px} .vbar button, .seg button{padding:4px 8px; font-size:10.5px} .cap{font-size:12.5px; margin-top:6px}
+  footer.ctl{padding-block:4px 6px} .dots{display:none}
+  .txt h1{font-size:20px} .txt h2, .txt h2.lead{font-size:18px}
   .ms{grid-template-columns:minmax(0,1fr) 200px; flex:none; height:calc(100dvh - 90px)} .cvwrap{height:100%; width:auto; aspect-ratio:1/1} #msCanvas{position:absolute; height:100%}
-  .side{flex-direction:column; flex-wrap:nowrap; gap:8px; overflow-y:auto; min-height:0} .side > *{flex:none} .cores{gap:3px} .stat b{font-size:20px}
+  .side{flex-direction:column; flex-wrap:nowrap; gap:8px; overflow-y:auto; min-height:0} .side > *{flex:none} .cores{gap:3px}
   .tw{grid-template-columns:1fr 1fr; gap:14px; flex:none} .tw canvas{height:220px; flex:none}
   .big3{grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
 }
@@ -212,6 +225,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
 .rotate svg{width:72px; height:72px; animation:tilt 2.4s ease-in-out infinite}
 .rotate b{font-size:22px; font-weight:500; letter-spacing:-.01em}
 .rotate p{margin:0; max-width:300px; color:var(--muted); font-size:15px}
+.rotate p.pc{font-size:13px; font-style:italic}
 @keyframes tilt{0%,25%{transform:rotate(0)} 55%,100%{transform:rotate(-90deg)}}
 @media (orientation:portrait) and (max-width:600px) and (pointer:coarse){ html:not(.portrait-ok) .rotate{display:flex} }
 @media (prefers-reduced-motion: reduce){ .slide{transition:none} .rotate svg{animation:none} }
@@ -222,6 +236,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="22" y="8" width="28" height="56" rx="5" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><rect x="26" y="15" width="20" height="40" rx="1" style="fill:var(--orange)"/><circle cx="36" cy="59" r="1.6" style="fill:var(--ink)"/></svg>
   <b id="rotT">Turn your phone sideways</b>
   <p>This CV is a deck of live, wide figures. They read best in landscape.</p>
+  <p class="pc">This is best viewed on PC, but I considered people using their phone too, just in case.</p>
   <button type="button" id="rotGo">Continue upright</button>
 </div>
 <div class="app">
