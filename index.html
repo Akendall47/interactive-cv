@@ -183,23 +183,29 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   header.top b{display:none}
 }
 @media (max-height:780px) and (min-width:821px){ .txt{gap:9px} .txt h2{font-size:24px} .txt h1{font-size:34px} .bg{font-size:13.5px !important} .steps{gap:7px} .steps li{font-size:15px} .isteps{gap:8px} .isteps li{font-size:15px} .tie{padding:8px 10px; font-size:13.5px} .maps > div{padding:4px 0} }
-/* Phone held sideways: the screen is short, so trim the chrome and give the figure the full height beside a scrolling text column. */
+/* Phones: the figure is the centrepiece, so it runs full width straight under the title and the rest of the text follows below; the slide scrolls. */
+@media (max-width:820px), (max-height:500px) and (orientation:landscape){
+  .slide{display:flex; flex-direction:column; gap:10px; padding-block:12px 24px}
+  .txt{display:contents}
+  .txt > *{order:3; max-width:680px; flex:none}
+  .txt > .mono:first-child, .txt > h1, .txt > h2{order:1}
+  .txt > a.mono{align-self:flex-start}
+  .viz, .viz.vauto{order:2; flex:none; min-height:0; padding:10px 12px; margin-block:2px 8px}
+  .fill{flex:none; display:block}
+  .fill > svg{height:auto}
+  .fill:has(> canvas){aspect-ratio:16/9}
+  .detail{min-height:0}
+}
+/* Phone held sideways: the screen is short, so trim the chrome to leave room for the figure. */
 @media (max-height:500px) and (orientation:landscape){
   header.top{padding-block:6px 5px} header.top b{display:none}
   footer.ctl{padding-block:4px 6px} footer.ctl button{padding:5px 10px} .dots{display:none}
-  .slide{grid-template-columns:minmax(220px, 34%) minmax(0,1fr); grid-template-rows:minmax(0,1fr); gap:14px; padding-block:8px}
-  .txt{align-self:stretch; overflow-y:auto; gap:8px; padding-right:6px; overscroll-behavior:contain}
-  .txt h1{font-size:24px} .txt h2, .txt h2.lead{font-size:20px}
-  .txt p, .txt ul, .bg, #flowDetail p, .detail p, .how{font-size:13px !important} .steps li, .isteps li{font-size:13.5px} .steps{gap:6px} .isteps{gap:6px}
-  .isteps li{grid-template-columns:28px 1fr; gap:8px} .isteps svg{width:28px; height:28px}
-  .tie{padding:7px 9px; font-size:12.5px} .tie b{font-size:13.5px} .detail{min-height:0; padding-top:8px} .detail h3, #flowDetail h3{font-size:15px}
-  .viz, .viz.vauto{min-height:0; padding:8px 10px; overflow:auto}
-  .vbar{margin-bottom:4px; gap:4px 8px} .vbar button, .seg button{padding:4px 7px; font-size:10.5px} .cap{font-size:12px; margin-top:4px}
-  .ms{grid-template-columns:minmax(0,1fr) 150px; flex:1} .cvwrap{height:100%; width:auto; aspect-ratio:1/1} #msCanvas{position:absolute; height:100%}
-  .side{flex-direction:column; flex-wrap:nowrap; gap:8px; overflow-y:auto; min-height:0} .side > *{flex:none} .cores{gap:2px} .stat b{font-size:18px}
-  .tw{grid-template-columns:1fr 1fr; gap:10px; flex:none} .tw canvas{height:110px; flex:none}
-  .viz[style*="justify-content"]{justify-content:safe center !important}
-  .big3{grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px} .big3 p{font-size:13px !important}
+  .txt h1{font-size:26px} .txt h2, .txt h2.lead{font-size:22px}
+  .vbar{margin-bottom:6px; gap:4px 8px} .vbar button, .seg button{padding:4px 8px; font-size:10.5px} .cap{font-size:12.5px; margin-top:6px}
+  .ms{grid-template-columns:minmax(0,1fr) 200px; flex:none; height:calc(100dvh - 90px)} .cvwrap{height:100%; width:auto; aspect-ratio:1/1} #msCanvas{position:absolute; height:100%}
+  .side{flex-direction:column; flex-wrap:nowrap; gap:8px; overflow-y:auto; min-height:0} .side > *{flex:none} .cores{gap:3px} .stat b{font-size:20px}
+  .tw{grid-template-columns:1fr 1fr; gap:14px; flex:none} .tw canvas{height:220px; flex:none}
+  .big3{grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
 }
 /* Phone held upright: the figures are too wide to read, so ask for landscape once. */
 .rotate{display:none; position:fixed; inset:0; z-index:50; background:var(--bg); flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center}
