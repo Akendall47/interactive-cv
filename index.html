@@ -80,6 +80,16 @@ nav.chapters button:hover{color:var(--ink)}
 nav.chapters button{display:inline-flex; gap:6px; align-items:center}
 nav.chapters button .t{display:none}
 nav.chapters button[aria-current="true"] .t{display:inline}
+/* Tab colour says what a slide draws on: industry, a project, or a module. */
+nav.chapters button[data-kind="industry"], .key i[data-kind="industry"]{--k:var(--moss); --k-on:var(--on-dark)}
+nav.chapters button[data-kind="project"], .key i[data-kind="project"]{--k:var(--orange); --k-on:#2b1a12}
+nav.chapters button[data-kind="module"], .key i[data-kind="module"]{--k:var(--lilac); --k-on:#2b1a12}
+nav.chapters button[data-kind] .n{box-shadow:inset 0 -2px 0 var(--k)}
+nav.chapters button[data-kind][aria-current="true"]{background:var(--k); color:var(--k-on)}
+nav.chapters button[data-kind][aria-current="true"] .n{box-shadow:none}
+.key{display:flex; align-items:center; gap:5px 10px; color:var(--muted); white-space:nowrap}
+.key span{display:inline-flex; align-items:center; gap:5px}
+.key i{width:9px; height:9px; border-radius:2px; background:var(--k)}
 .count{white-space:nowrap; color:var(--muted)}
 .toc{columns:2; column-gap:24px}
 .tocg{display:grid; gap:0; break-inside:avoid; margin-bottom:12px; min-width:0}
@@ -199,6 +209,8 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   body{font-size:14px; padding-left:max(12px, env(safe-area-inset-left, 0px)); padding-right:max(12px, env(safe-area-inset-right, 0px))}
   .mono{font-size:10px} button{font-size:10px; padding:5px 8px}
   header.top{padding-block:8px 6px; gap:10px} nav.chapters button{padding:4px 6px}
+  /* Top bar: numbers only (the footer already names the slide), so all 13 fit without scrolling. */
+  #count, .key, nav.chapters button[aria-current="true"] .t{display:none} nav.chapters{justify-content:space-between; gap:0} nav.chapters button{padding:3px 5px; font-size:9.5px}
   footer.ctl{padding-block:6px 8px} .dots i{width:5px; height:5px}
   .txt h1{font-size:22px} .txt h2, .txt h2.lead{font-size:19px}
   .txt p, .txt ul, .why{font-size:13.5px} .bg{font-size:13px !important} .note, .txt p.note{font-size:12.5px}
@@ -243,6 +255,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   <header class="top">
     <b class="mono">Archie Kendall</b>
     <nav class="chapters" id="chapters" aria-label="Chapters"></nav>
+    <span class="mono key" aria-hidden="true"><span><i data-kind="industry"></i>Industry</span><span><i data-kind="project"></i>Project</span><span><i data-kind="module"></i>Module</span></span>
     <span class="mono count" id="count"></span>
   </header>
 
@@ -270,7 +283,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 2 · Mariani–Silver -->
-    <section class="slide" data-id="mariani" data-title="Mariani–Silver">
+    <section class="slide" data-id="mariani" data-kind="project" data-title="Mariani–Silver">
       <div class="txt">
         <div class="mono muted">PYNQZOOM · the algorithm, in hardware</div>
         <h2>Most of this image is never computed</h2>
@@ -303,7 +316,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 3 · PYNQZOOM hardware -->
-    <section class="slide" data-id="pynqzoom" data-title="PYNQZOOM hardware">
+    <section class="slide" data-id="pynqzoom" data-kind="project" data-title="PYNQZOOM hardware">
       <div class="txt">
         <div class="mono muted">PYNQZOOM · inside the FPGA</div>
         <h2>48 cores, and the CPU gets out of the way</h2>
@@ -321,7 +334,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 4 · More cores or more precision -->
-    <section class="slide" data-id="tradeoff" data-title="Cores vs precision">
+    <section class="slide" data-id="tradeoff" data-kind="project" data-title="Cores vs precision">
       <div class="txt">
         <div class="mono muted">PYNQZOOM · the trade-off</div>
         <h2>More cores, or more precision?</h2>
@@ -344,7 +357,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 5 · PYNQZOOM verification -->
-    <section class="slide" data-id="verify" data-title="PYNQZOOM verification">
+    <section class="slide" data-id="verify" data-kind="project" data-title="PYNQZOOM verification">
       <div class="txt">
         <div class="mono muted">PYNQZOOM · simulation and testing</div>
         <h2>Every block proven in simulation first</h2>
@@ -361,7 +374,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 6 · PYNQcast raycaster -->
-    <section class="slide" data-id="raycast" data-title="PYNQcast raycaster">
+    <section class="slide" data-id="raycast" data-kind="project" data-title="PYNQcast raycaster">
       <div class="txt">
         <div class="mono muted">PYNQcast · the rendering algorithm</div>
         <h2>640 rays a frame, and none of them depend on each other</h2>
@@ -379,7 +392,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 7 · PYNQcast network -->
-    <section class="slide" data-id="pynqcast" data-title="PYNQcast network">
+    <section class="slide" data-id="pynqcast" data-kind="project" data-title="PYNQcast network">
       <div class="txt">
         <div class="mono muted">PYNQcast · I led the server</div>
         <h2>Never let slow work block fast work</h2>
@@ -396,7 +409,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 8 · GKN: three rates -->
-    <section class="slide" data-id="gkn-rates" data-title="GKN: three rates">
+    <section class="slide" data-id="gkn-rates" data-kind="industry" data-title="GKN: three rates">
       <div class="txt">
         <div class="mono muted">GKN Aerospace · 2025 and 2026</div>
         <h2>Three speeds of response, one stable bus</h2>
@@ -413,7 +426,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 9 · GKN: three substrates -->
-    <section class="slide" data-id="gkn" data-title="GKN: heterogeneous">
+    <section class="slide" data-id="gkn" data-kind="industry" data-title="GKN: heterogeneous">
       <div class="txt">
         <div class="mono muted">GKN Aerospace · the control side</div>
         <h2>My rig was a heterogeneous system too</h2>
@@ -434,7 +447,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 10 · RISC-V -->
-    <section class="slide" data-id="riscv" data-title="RISC-V cache">
+    <section class="slide" data-id="riscv" data-kind="project" data-title="RISC-V cache">
       <div class="txt">
         <div class="mono muted">RISC-V CPU · I wrote the cache</div>
         <h2>A cache only helps if the pipeline waits for it correctly</h2>
@@ -452,7 +465,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 11 · ETL -->
-    <section class="slide" data-id="etl" data-title="ETL: learning fast">
+    <section class="slide" data-id="etl" data-kind="industry" data-title="ETL: learning fast">
       <div class="txt">
         <div class="mono muted">ETL Systems · RF test technician · 2023–24</div>
         <h2>No engineering background, up to speed fast</h2>
@@ -470,7 +483,7 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
     </section>
 
     <!-- 12 · Why now -->
-    <section class="slide" data-id="why" data-title="Why now">
+    <section class="slide" data-id="why" data-kind="module" data-title="Why now">
       <div class="txt">
         <div class="mono muted">This year</div>
         <h2>Now I&rsquo;m learning the model side</h2>
@@ -1253,7 +1266,7 @@ MOD.why=(()=>{
    ====================================================================== */
 const slides=[...document.querySelectorAll('.slide')], ids=slides.map(s=>s.dataset.id);
 const chapters=document.getElementById('chapters'), dotsEl=document.getElementById('dots');
-slides.forEach((s,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='mono'; b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="t"></span>`; b.querySelector('.t').textContent=s.dataset.title; b.title=s.dataset.title; b.setAttribute('aria-label',`Slide ${i+1}: ${s.dataset.title}`); b.onclick=()=>go(i); chapters.appendChild(b);
+slides.forEach((s,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='mono'; b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="t"></span>`; b.querySelector('.t').textContent=s.dataset.title; b.title=s.dataset.title+(s.dataset.kind?` · ${s.dataset.kind}`:''); if(s.dataset.kind) b.dataset.kind=s.dataset.kind; b.setAttribute('aria-label',`Slide ${i+1}: ${s.dataset.title}`); b.onclick=()=>go(i); chapters.appendChild(b);
   dotsEl.appendChild(document.createElement('i')); });
 let cur=-1;
 function go(i, fromHash){
