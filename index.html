@@ -29,7 +29,7 @@ code{font-family:var(--f-mono); font-size:.88em}
 .mono{font-family:var(--f-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase}
 .muted{color:var(--muted)}
 
-.app{height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto; max-width:1400px; margin:0 auto}
+.app{height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto; grid-template-columns:minmax(0,1fr); max-width:1400px; margin:0 auto}
 header.top{display:flex; align-items:center; gap:18px; padding-block:14px 12px; border-bottom:1px solid var(--rule); min-width:0}
 header.top b{white-space:nowrap}
 nav.chapters{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; min-width:0; flex:1}
@@ -183,10 +183,41 @@ footer.ctl .where{flex:1; text-align:center; color:var(--muted); min-width:0; ov
   header.top b{display:none}
 }
 @media (max-height:780px) and (min-width:821px){ .txt{gap:9px} .txt h2{font-size:24px} .txt h1{font-size:34px} .bg{font-size:13.5px !important} .steps{gap:7px} .steps li{font-size:15px} .isteps{gap:8px} .isteps li{font-size:15px} .tie{padding:8px 10px; font-size:13.5px} .maps > div{padding:4px 0} }
-@media (prefers-reduced-motion: reduce){ .slide{transition:none} }
+/* Phone held sideways: the screen is short, so trim the chrome and give the figure the full height beside a scrolling text column. */
+@media (max-height:500px) and (orientation:landscape){
+  header.top{padding-block:6px 5px} header.top b{display:none}
+  footer.ctl{padding-block:4px 6px} footer.ctl button{padding:5px 10px} .dots{display:none}
+  .slide{grid-template-columns:minmax(220px, 34%) minmax(0,1fr); grid-template-rows:minmax(0,1fr); gap:14px; padding-block:8px}
+  .txt{align-self:stretch; overflow-y:auto; gap:8px; padding-right:6px; overscroll-behavior:contain}
+  .txt h1{font-size:24px} .txt h2, .txt h2.lead{font-size:20px}
+  .txt p, .txt ul, .bg, #flowDetail p, .detail p, .how{font-size:13px !important} .steps li, .isteps li{font-size:13.5px} .steps{gap:6px} .isteps{gap:6px}
+  .isteps li{grid-template-columns:28px 1fr; gap:8px} .isteps svg{width:28px; height:28px}
+  .tie{padding:7px 9px; font-size:12.5px} .tie b{font-size:13.5px} .detail{min-height:0; padding-top:8px} .detail h3, #flowDetail h3{font-size:15px}
+  .viz, .viz.vauto{min-height:0; padding:8px 10px; overflow:auto}
+  .vbar{margin-bottom:4px; gap:4px 8px} .vbar button, .seg button{padding:4px 7px; font-size:10.5px} .cap{font-size:12px; margin-top:4px}
+  .ms{grid-template-columns:minmax(0,1fr) 150px; flex:1} .cvwrap{height:100%; width:auto; aspect-ratio:1/1} #msCanvas{position:absolute; height:100%}
+  .side{flex-direction:column; flex-wrap:nowrap; gap:8px; overflow-y:auto; min-height:0} .side > *{flex:none} .cores{gap:2px} .stat b{font-size:18px}
+  .tw{grid-template-columns:1fr 1fr; gap:10px; flex:none} .tw canvas{height:110px; flex:none}
+  .viz[style*="justify-content"]{justify-content:safe center !important}
+  .big3{grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px} .big3 p{font-size:13px !important}
+}
+/* Phone held upright: the figures are too wide to read, so ask for landscape once. */
+.rotate{display:none; position:fixed; inset:0; z-index:50; background:var(--bg); flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center}
+.rotate svg{width:72px; height:72px; animation:tilt 2.4s ease-in-out infinite}
+.rotate b{font-size:22px; font-weight:500; letter-spacing:-.01em}
+.rotate p{margin:0; max-width:300px; color:var(--muted); font-size:15px}
+@keyframes tilt{0%,25%{transform:rotate(0)} 55%,100%{transform:rotate(-90deg)}}
+@media (orientation:portrait) and (max-width:600px) and (pointer:coarse){ html:not(.portrait-ok) .rotate{display:flex} }
+@media (prefers-reduced-motion: reduce){ .slide{transition:none} .rotate svg{animation:none} }
 </style>
 </head>
 <body>
+<div class="rotate" id="rotate" role="dialog" aria-modal="true" aria-labelledby="rotT">
+  <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="22" y="8" width="28" height="56" rx="5" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><rect x="26" y="15" width="20" height="40" rx="1" style="fill:var(--orange)"/><circle cx="36" cy="59" r="1.6" style="fill:var(--ink)"/></svg>
+  <b id="rotT">Turn your phone sideways</b>
+  <p>This CV is a deck of live, wide figures. They read best in landscape.</p>
+  <button type="button" id="rotGo">Continue upright</button>
+</div>
 <div class="app">
   <header class="top">
     <b class="mono">Archie Kendall</b>
@@ -1239,6 +1270,9 @@ function loop(t){ const m=MOD[ids[cur]]; if(m && m.tick) m.tick(t); requestAnima
 requestAnimationFrame(loop);
 let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ MOD.raycast.resize(); MOD['gkn-rates'].resize(); },120); });
 if(document.fonts) document.fonts.ready.then(()=>{ MOD.overview.render(); MOD['gkn-rates'].resize(); });
+const portraitOk=()=>document.documentElement.classList.add('portrait-ok');
+try{ if(sessionStorage.getItem('portraitOk')) portraitOk(); }catch(e){}
+document.getElementById('rotGo').onclick=()=>{ portraitOk(); try{ sessionStorage.setItem('portraitOk','1'); }catch(e){} };
 </script>
 
 </body>
